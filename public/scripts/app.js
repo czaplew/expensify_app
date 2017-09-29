@@ -9,7 +9,13 @@ function getLocation(location) {
   return location ? location : "";
 }
 
-var template2 = React.createElement(
+function addToCount() {
+  // return user.count++;
+  user.age++;
+  ReactDOM.render(templateTwo, document.getElementById("app"));
+}
+
+var templateTwo = React.createElement(
   "div",
   { className: "container" },
   React.createElement(
@@ -28,25 +34,7 @@ var template2 = React.createElement(
     null,
     getLocation(user.city)
   ),
-  React.createElement(
-    "ul",
-    { "class": "list-group" },
-    React.createElement(
-      "li",
-      { "class": "list-group-item" },
-      "First item"
-    ),
-    React.createElement(
-      "li",
-      { "class": "list-group-item" },
-      "Second item"
-    ),
-    React.createElement(
-      "li",
-      { "class": "list-group-item" },
-      "Third item"
-    )
-  )
+  React.createElement("button", { onClick: addToCount })
 );
 
-ReactDOM.render(template2, document.getElementById("app"));
+ReactDOM.render(templateTwo, document.getElementById("app"));
