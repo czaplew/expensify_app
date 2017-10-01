@@ -1,40 +1,41 @@
-"use strict";
+'use strict';
 
-var user = { name: "Kamil",
-  age: 24,
-  city: 'Wroclaw'
+var app = {
+  butt_vis: false,
+  text: 'show details'
 };
 
-function getLocation(location) {
-  return location ? location : "";
-}
+var onButtonClick = function onButtonClick() {
+  app.butt_vis === 'true' ? app.butt_vis = 'false' : app.butt_vis = 'true';
+  app.text === 'show details' ? app.text = 'hide details' : app.text = 'show details';
+  rerender();
+};
 
-function addToCount() {
-  // return user.count++;
-  user.age++;
+var rerender = function rerender() {
+  var templateTwo = React.createElement(
+    'div',
+    { className: 'container' },
+    React.createElement(
+      'h1',
+      null,
+      'Visibility Toggle'
+    ),
+    React.createElement(
+      'div',
+      { visibility: app.butt_vis },
+      ' ',
+      app.butt_vis
+    ),
+    React.createElement(
+      'button',
+      { onClick: onButtonClick },
+      app.butt_vis ? 'Hide details' : 'Show details'
+    )
+  );
+  //
   ReactDOM.render(templateTwo, document.getElementById("app"));
-}
+};
 
-var templateTwo = React.createElement(
-  "div",
-  { className: "container" },
-  React.createElement(
-    "h1",
-    { className: "{user.name ? 'alert alert-success' : 'alert alert-warning'}", role: "alert" },
-    user.name ? user.name : "anonymous"
-  ),
-  React.createElement(
-    "p",
-    null,
-    " Age: ",
-    user.age
-  ),
-  React.createElement(
-    "p",
-    null,
-    getLocation(user.city)
-  ),
-  React.createElement("button", { onClick: addToCount })
-);
+rerender();
 
-ReactDOM.render(templateTwo, document.getElementById("app"));
+// ReactDOM.render(templateTwo, document.getElementById("app"));
