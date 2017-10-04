@@ -2,11 +2,12 @@ class IndecisionApp extends React.Component{
   render(){
     const title = "Indecision";
     const subtitle = "Put your life in the hands of a computer";
+    const options = ["Thing one","Thing two", "Thing three"];
     return(
       <div>
-        <Header title="{title}" subtitle="{subtitle}"></Header>
+        <Header title={title} subtitle={subtitle}></Header>
         <Action></Action>
-        <Options></Options>
+        <Options options={options}></Options>
         <AddOption></AddOption>
       </div>
     );
@@ -24,29 +25,51 @@ class Header extends React.Component {
 }
 
 class Action extends  React.Component {
+  handlePick(){
+    alert(this,"handlePick");
+  }
   render(){
-    return (<div><button>What should I do</button></div>);
+    return (<div><button onClick={()=>{this.handlePick()}}>What should I do</button></div>);
   }
 }
 
 class Options extends  React.Component {
+  removeAll(){
+    alert(this,"handlePick");
+    this.props.options = [];
+    rerender();
+  }
   render(){
     return (<div>
+      <button onClick={()=>{this.removeAll()}}>What should I do</button>
       <h1>Options</h1>
-      <Option/>
+      {this.props.options.map((text)=>{return <Option text={text}/>;})}
     </div>);
   }
 }
 
 class Option extends React.Component {
   render(){
-    return (<div>Option</div>);
+    return (<div>{this.props.text}</div>);
   }
 }
 
 class AddOption extends  React.Component {
+  addToList(e){
+    e.preventDefault();
+    // rerender();
+    const option = e.target.elements.option.value;
+    if (option) {
+      // app.options.push(option);
+      alert("Cos jest");
+    }
+  }
   render(){
-    return (<div>AddOption</div>);
+    return (<div><div>AddOption</div>
+      <form onSubmit={this.addToList} >
+        <input type="text" name="option"></input>
+        <button>Add button</button>
+      </form></div>);
   }
 }
 
