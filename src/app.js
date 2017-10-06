@@ -34,14 +34,17 @@ class Action extends  React.Component {
 }
 
 class Options extends  React.Component {
+  constructor(props){
+    super(props);
+    this.removeAll = this.removeAll.bind(this);
+  }
   removeAll(){
     alert(this,"handlePick");
-    this.props.options = [];
-    rerender();
+    // this.props.options = [];
   }
   render(){
     return (<div>
-      <button onClick={()=>{this.removeAll()}}>What should I do</button>
+      <button onClick={this.removeAll}></button>
       <h1>Options</h1>
       {this.props.options.map((text)=>{return <Option text={text}/>;})}
     </div>);
@@ -60,7 +63,7 @@ class AddOption extends  React.Component {
     // rerender();
     const option = e.target.elements.option.value;
     if (option) {
-      // app.options.push(option);
+      // this.props
       alert("Cos jest");
     }
   }
@@ -68,7 +71,7 @@ class AddOption extends  React.Component {
     return (<div><div>AddOption</div>
       <form onSubmit={this.addToList} >
         <input type="text" name="option"></input>
-        <button>Add button</button>
+        <button type="submit" >Add button</button>
       </form></div>);
   }
 }
