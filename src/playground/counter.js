@@ -5,17 +5,21 @@ class Counter extends React.Component {
     super(props);
 
     this.addOne = this.addOne.bind(this);
+    this.minusOne = this.minusOne.bind(this);
     // this.counter = 0;
     this.state = {age:0};
   }
-
+// Old version of changing state
   addOne() {
-
     this.setState({age : (this.state.age + 1)});
   }
 
   minusOne() {
-    this.setState({age : (this.state.age - 1)});
+    this.setState((prevState)=>{return {age:(prevState.age - 1)};});
+  }
+
+  reset(){
+    this.setState(()=>{return {count:0};});
   }
 
   render() {
@@ -26,7 +30,7 @@ class Counter extends React.Component {
         {/* <p>{getLocation(this.city)}</p> */}
         <button onClick={this.addOne}>+1</button>
         <button onClick={this.minusOne}>-1</button>
-
+        <button onClick={this.minusOne}>Reset</button>
       </div>
     );
   }

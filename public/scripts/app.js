@@ -17,21 +17,25 @@ var Counter = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Counter.__proto__ || Object.getPrototypeOf(Counter)).call(this, props));
 
     _this.addOne = _this.addOne.bind(_this);
+    _this.minusOne = _this.minusOne.bind(_this);
     // this.counter = 0;
     _this.state = { age: 0 };
     return _this;
   }
+  // Old version of changing state
+
 
   _createClass(Counter, [{
     key: "addOne",
     value: function addOne() {
-
       this.setState({ age: this.state.age + 1 });
     }
   }, {
     key: "minusOne",
     value: function minusOne() {
-      this.setState({ age: this.state.age - 1 });
+      this.setState(function (prevState) {
+        return { age: prevState.age - 1 };
+      });
     }
   }, {
     key: "render",
