@@ -8,34 +8,146 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Counter = function (_React$Component) {
-  _inherits(Counter, _React$Component);
+var IndecisionApp = function (_React$Component) {
+  _inherits(IndecisionApp, _React$Component);
 
-  function Counter(props) {
-    _classCallCheck(this, Counter);
+  function IndecisionApp(props) {
+    _classCallCheck(this, IndecisionApp);
 
-    var _this = _possibleConstructorReturn(this, (Counter.__proto__ || Object.getPrototypeOf(Counter)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (IndecisionApp.__proto__ || Object.getPrototypeOf(IndecisionApp)).call(this, props));
 
-    _this.addOne = _this.addOne.bind(_this);
-    _this.minusOne = _this.minusOne.bind(_this);
-    // this.counter = 0;
-    _this.state = { age: 0 };
+    _this.handleDeleteOptions = _this.handleDeleteOptions.bind(_this);
+    _this.handleAddOptions = _this.handleAddOptions.bind(_this);
+    _this.state = {
+      options: ["Thing one", "Thing two", "Thing three"]
+    };
     return _this;
   }
-  // Old version of changing state
 
-
-  _createClass(Counter, [{
-    key: "addOne",
-    value: function addOne() {
-      this.setState({ age: this.state.age + 1 });
+  _createClass(IndecisionApp, [{
+    key: "handleDeleteOptions",
+    value: function handleDeleteOptions() {
+      this.setState(function () {
+        return { options: [] };
+      });
     }
   }, {
-    key: "minusOne",
-    value: function minusOne() {
+    key: "handleAddOptions",
+    value: function handleAddOptions(oObj) {
+      // this.setState((prevState)=>{return {prevState.options.push(oObj)};});
       this.setState(function (prevState) {
-        return { age: prevState.age - 1 };
+        return prevState.options.push(oObj);
       });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var title = "Indecision";
+      var subtitle = "Put your life in the hands of a computer";
+      // const options = ["Thing one","Thing two", "Thing three"];
+      return React.createElement(
+        "div",
+        null,
+        React.createElement(Header, { title: title, subtitle: subtitle }),
+        React.createElement(Action, { hasOptions: this.state.options.length > 0 }),
+        React.createElement(Options, { options: this.state.options, handleDeleteOptions: this.handleDeleteOptions }),
+        React.createElement(AddOption, { addOption: this.handleAddOptions })
+      );
+    }
+  }]);
+
+  return IndecisionApp;
+}(React.Component);
+
+var Header = function (_React$Component2) {
+  _inherits(Header, _React$Component2);
+
+  function Header() {
+    _classCallCheck(this, Header);
+
+    return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).apply(this, arguments));
+  }
+
+  _createClass(Header, [{
+    key: "render",
+
+    // constructor(){}
+
+    value: function render() {
+      // console.log(this.props.title);
+      return React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "h1",
+          null,
+          this.props.title
+        ),
+        React.createElement(
+          "h1",
+          null,
+          this.props.subtitle
+        )
+      );
+    }
+  }]);
+
+  return Header;
+}(React.Component);
+
+var Action = function (_React$Component3) {
+  _inherits(Action, _React$Component3);
+
+  function Action() {
+    _classCallCheck(this, Action);
+
+    return _possibleConstructorReturn(this, (Action.__proto__ || Object.getPrototypeOf(Action)).apply(this, arguments));
+  }
+
+  _createClass(Action, [{
+    key: "handlePick",
+    value: function handlePick() {
+      alert("handlePick");
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this4 = this;
+
+      return React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "button",
+          { disabled: !this.props.hasOptions, onClick: function onClick() {
+              _this4.handlePick();
+            } },
+          "What should I do"
+        )
+      );
+    }
+  }]);
+
+  return Action;
+}(React.Component);
+
+var Options = function (_React$Component4) {
+  _inherits(Options, _React$Component4);
+
+  function Options(props) {
+    _classCallCheck(this, Options);
+
+    var _this5 = _possibleConstructorReturn(this, (Options.__proto__ || Object.getPrototypeOf(Options)).call(this, props));
+
+    _this5.removeAll = _this5.removeAll.bind(_this5);
+    return _this5;
+  }
+
+  _createClass(Options, [{
+    key: "removeAll",
+    value: function removeAll() {
+      alert(this, "handlePick");
+      this.props.handleDeleteOptions();
     }
   }, {
     key: "render",
@@ -44,64 +156,202 @@ var Counter = function (_React$Component) {
         "div",
         null,
         React.createElement(
-          "p",
+          "button",
+          { onClick: this.removeAll },
+          "Remove all options"
+        ),
+        React.createElement(
+          "h1",
           null,
-          "Age: ",
-          this.state.age
+          "Options"
+        ),
+        this.props.options.map(function (text) {
+          return React.createElement(Option, { text: text });
+        })
+      );
+    }
+  }]);
+
+  return Options;
+}(React.Component);
+
+var Option = function (_React$Component5) {
+  _inherits(Option, _React$Component5);
+
+  function Option() {
+    _classCallCheck(this, Option);
+
+    return _possibleConstructorReturn(this, (Option.__proto__ || Object.getPrototypeOf(Option)).apply(this, arguments));
+  }
+
+  _createClass(Option, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "div",
+        null,
+        this.props.text
+      );
+    }
+  }]);
+
+  return Option;
+}(React.Component);
+
+var AddOption = function (_React$Component6) {
+  _inherits(AddOption, _React$Component6);
+
+  function AddOption(props) {
+    _classCallCheck(this, AddOption);
+
+    var _this7 = _possibleConstructorReturn(this, (AddOption.__proto__ || Object.getPrototypeOf(AddOption)).call(this, props));
+
+    _this7.addToList = _this7.addToList.bind(_this7);
+    return _this7;
+  }
+
+  _createClass(AddOption, [{
+    key: "addToList",
+    value: function addToList(e) {
+      e.preventDefault();
+      // rerender();
+      var option = e.target.elements.option.value;
+      if (option) {
+        // this.props
+        this.props.addOption(option);
+        alert("Cos jest");
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "div",
+          null,
+          "AddOption"
         ),
         React.createElement(
-          "button",
-          { onClick: this.addOne },
-          "+1"
-        ),
-        React.createElement(
-          "button",
-          { onClick: this.minusOne },
-          "-1"
+          "form",
+          { onSubmit: this.addToList },
+          React.createElement("input", { type: "text", name: "option" }),
+          React.createElement(
+            "button",
+            { type: "submit" },
+            "Add button"
+          )
         )
       );
     }
   }]);
 
-  return Counter;
+  return AddOption;
 }(React.Component);
 
-ReactDOM.render(React.createElement(Counter, null), document.getElementById("app"));
+ReactDOM.render(React.createElement(IndecisionApp, null), document.getElementById('app'));
 
-// let user =
-// { name : "Kamil",
-//   age : 24,
-//   city : 'Wroclaw'
+// // const emailjs = require("emailjs");
+//
+// const app = {
+//   title: 'Indecision App',
+//   subtitle: 'Put your life in the hands of computer',
+//   options: ['One', 'Two'],
+//   decision:0
+// };
+// function sendMail(e)
+// {
+//   e.preventDefault();
+//   $.ajax({
+//     type: "POST",
+//     url: "https://mandrillapp.com/api/1.0/messages/send.json",
+//     data: {
+//       'key': 'NiDEYZJfdOPa2CdsOb-TOw',
+//       'message': {
+//         'from_email': 'punczoll@o2.pl',
+//         'to': [
+//             {
+//               'email': 'kczaplew0@gmail.com',
+//               'name': 'RECIPIENT NAME (OPTIONAL)',
+//               'type': 'to'
+//             }
+//           ],
+//         'autotext': 'true',
+//         'subject': 'YOUR SUBJECT HERE!',
+//         'html': 'YOUR EMAIL CONTENT HERE! YOU CAN USE HTML!'
+//       }
+//     }
+//    }).done(function(response) {
+//      console.log(response); // if you're into that sorta thing
+//    });
 // };
 //
 // function getLocation(location) {
-// return  location ? location : "";
-// }
+//   return location
+//     ? location
+//     : "";
+// };
 //
-// const addOne = ()=>{
-//   user.age++;
+// const addToList = (e) => {
+//   e.preventDefault();
+//   // rerender();
+//   const option = e.target.elements.option.value;
+//   if (option) {
+//     app.options.push(option);
+//   }
+//
 //   rerender();
 // };
 //
-// const minusOne = ()=>{
-//   user.age--;
+// const onRemoveAll = (e) => {
+//   app.options = [];
 //   rerender();
 // };
 //
+// const onMakeDecision = ()=>{
+//   const randomNum = Math.floor(Math.random() * app.options.length);
+//   app.decision = randomNum;
+//   rerender();
+//   console.log(randomNum);
+// };
+// // Works but map is more pretty :)
+// // const items = () => {
+// //   let alist =[];
+// //   app.options.forEach((oObj,index) =>{
+// //   alist.push( <li key={index}>{oObj}</li>);
+// //   // return <li>{oObj}</li>;
+// //   });
+// //
+// //   // rerender();
+// //    return alist;
+// // };
 //
-//
+// const buttons = {
+//   visibility:true
+// };
 // const rerender = () => {
 //   const templateTwo = <div className="container">
-//     <h1 className="{user.name ? 'alert alert-success' : 'alert alert-warning'}" role="alert">{user.name ? user.name : "anonymous"}</h1>
-//     <p> Age: {user.age}</p>
-//     <p>{getLocation(user.city)}</p>
-//     <button onClick={addOne}>+1</button>
-//     <button onClick={minusOne}>-1</button>
+//     <h1>Indecision App</h1>
+//     <div>Put your life in the hands of a computer</div>
+//     <ul>
+//       <button visibility={buttons.visibility} onClick={onRemoveAll}> Poniedziałek, 19:00 </button>
+//       <button visibility={buttons.visibility} onClick={onRemoveAll}> Wtorek, 19:00 </button>
+//       <button visibility={buttons.visibility} onClick={onRemoveAll}> Sobota, wieczorem</button>
+//       <button visibility={buttons.visibility} onClick={onRemoveAll}> Niedziela, do uzg. </button>
+//       <button visibility={buttons.visibility} onClick={onRemoveAll}> Nie mam zdania (czyt. chyba oszalałeś, nigdzie z Tobą nie pójdę) </button>
+//       <button visibility={buttons.visibility} onClick={onRemoveAll}> Losuj </button>
+//     </ul>
+//
+//     <div>Twój wybór to : {buttons.choice}</div>
+//     <form onSubmit={sendMail}>
+//       <input type="text" name="option"></input>
+//       <button>Wyślij odpowiedź</button>
+//     </form>
 //   </div>;
 //   //
 //   ReactDOM.render(templateTwo, document.getElementById("app"));
 // };
-//
 //
 // rerender();
 //

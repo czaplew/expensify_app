@@ -1,14 +1,33 @@
-class IndecisionApp extends React.Component{
-  render(){
+class IndecisionApp extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
+    this.handleAddOptions = this.handleAddOptions.bind(this);
+    this.state = {
+      options: ["Thing one", "Thing two", "Thing three"]
+    };
+  }
+
+handleDeleteOptions(){
+  this.setState(()=>{return {options:[]};});
+}
+
+handleAddOptions(oObj){
+  // this.setState((prevState)=>{return {prevState.options.push(oObj)};});
+  this.setState((prevState)=>{return prevState.options.push(oObj) });
+}
+
+  render() {
     const title = "Indecision";
     const subtitle = "Put your life in the hands of a computer";
-    const options = ["Thing one","Thing two", "Thing three"];
-    return(
+    // const options = ["Thing one","Thing two", "Thing three"];
+    return (
       <div>
         <Header title={title} subtitle={subtitle}></Header>
-        <Action></Action>
-        <Options options={options}></Options>
-        <AddOption></AddOption>
+        <Action hasOptions={this.state.options.length > 0} ></Action>
+        <Options options={this.state.options} handleDeleteOptions={this.handleDeleteOptions}></Options>
+        <AddOption addOption={this.handleAddOptions}></AddOption>
       </div>
     );
   }
@@ -18,66 +37,95 @@ class Header extends React.Component {
   // constructor(){}
 
   render() {
-      // console.log(this.props.title);
-    return     (<div><h1>{this.props.title}</h1>
-        <h1>{this.props.subtitle}</h1></div>);
+    // console.log(this.props.title);
+    return (
+      <div>
+        <h1>{this.props.title}</h1>
+        <h1>{this.props.subtitle}</h1>
+      </div>
+    );
   }
 }
 
-class Action extends  React.Component {
-  handlePick(){
-    alert(this,"handlePick");
+class Action extends React.Component {
+
+  handlePick() {
+    alert("handlePick");
+
   }
-  render(){
-    return (<div><button onClick={()=>{this.handlePick()}}>What should I do</button></div>);
+  render() {
+    return (
+      <div>
+        <button disabled={!this.props.hasOptions} onClick={() => {
+          this.handlePick();
+        }}>What should I do</button>
+      </div>
+    );
   }
 }
 
-class Options extends  React.Component {
-  constructor(props){
+class Options extends React.Component {
+  constructor(props) {
     super(props);
     this.removeAll = this.removeAll.bind(this);
   }
-  removeAll(){
-    alert(this,"handlePick");
-    // this.props.options = [];
+  removeAll() {
+    alert(this, "handlePick");
+    this.props.handleDeleteOptions();
   }
-  render(){
-    return (<div>
-      <button onClick={this.removeAll}></button>
-      <h1>Options</h1>
-      {this.props.options.map((text)=>{return <Option text={text}/>;})}
-    </div>);
+  render() {
+    return (
+      <div>
+        <button onClick={this.removeAll}>Remove all options</button>
+        <h1>Options</h1>
+        {this.props.options.map((text) => {
+          return <Option text={text}/>;
+        })}
+      </div>
+    );
   }
 }
 
 class Option extends React.Component {
-  render(){
-    return (<div>{this.props.text}</div>);
+  render() {
+    return (
+      <div>{this.props.text}</div>
+    );
   }
 }
 
-class AddOption extends  React.Component {
-  addToList(e){
+class AddOption extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.addToList = this.addToList.bind(this);
+  }
+
+  addToList(e) {
     e.preventDefault();
     // rerender();
     const option = e.target.elements.option.value;
     if (option) {
       // this.props
+      this.props.addOption(option);
       alert("Cos jest");
     }
   }
-  render(){
-    return (<div><div>AddOption</div>
-      <form onSubmit={this.addToList} >
-        <input type="text" name="option"></input>
-        <button type="submit" >Add button</button>
-      </form></div>);
+  render() {
+    return (
+      <div>
+        <div>AddOption</div>
+        <form onSubmit={this.addToList}>
+          <input type="text" name="option"></input>
+          <button type="submit">Add button</button>
+        </form>
+      </div>
+    );
   }
 }
 
-
-ReactDOM.render(<IndecisionApp/>, document.getElementById('app'));
+ReactDOM.render(
+  <IndecisionApp/>, document.getElementById('app'));
 
 // // const emailjs = require("emailjs");
 //
