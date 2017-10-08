@@ -9,14 +9,32 @@ class IndecisionApp extends React.Component {
     };
   }
 
-handleDeleteOptions(){
-  this.setState(()=>{return {options:[]};});
-}
+  handleDeleteOptions() {
+    this.setState(() => {
+      return {options: []};
+    });
+  }
 
-handleAddOptions(oObj){
-  // this.setState((prevState)=>{return {prevState.options.push(oObj)};});
-  this.setState((prevState)=>{return prevState.options.push(oObj) });
-}
+  handleAddOptions(oObj) {
+    // this.setState((prevState)=>{return {prevState.options.push(oObj)};});
+    if (!oObj) {
+      return "Put smth into input";
+    } else if (this.state.options.indexOf(oObj) > -1) {
+      return 'This option already exists';
+    }
+
+    else {
+      this.setState((prevState) => {
+        return {options: prevState.options.concat(oObj)};
+      });
+    }
+
+  }
+
+  handlePick() {
+    const randomNum = Math.floor(Math.random() * app.options.length);
+    const option = this.state.options[randomNum];
+  }
 
   render() {
     const title = "Indecision";
@@ -25,7 +43,7 @@ handleAddOptions(oObj){
     return (
       <div>
         <Header title={title} subtitle={subtitle}></Header>
-        <Action hasOptions={this.state.options.length > 0} ></Action>
+        <Action hasOptions={this.state.options.length > 0} onClick={this.handlePick}></Action>
         <Options options={this.state.options} handleDeleteOptions={this.handleDeleteOptions}></Options>
         <AddOption addOption={this.handleAddOptions}></AddOption>
       </div>
@@ -49,16 +67,10 @@ class Header extends React.Component {
 
 class Action extends React.Component {
 
-  handlePick() {
-    alert("handlePick");
-
-  }
   render() {
     return (
       <div>
-        <button disabled={!this.props.hasOptions} onClick={() => {
-          this.handlePick();
-        }}>What should I do</button>
+        <button disabled={!this.props.hasOptions} onClick={this.props.handlePick}>What should I do</button>
       </div>
     );
   }
@@ -96,24 +108,30 @@ class Option extends React.Component {
 
 class AddOption extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.addToList = this.addToList.bind(this);
+    this.state = {
+      error: undefined
+    };
   }
 
   addToList(e) {
     e.preventDefault();
     // rerender();
-    const option = e.target.elements.option.value;
-    if (option) {
-      // this.props
-      this.props.addOption(option);
-      alert("Cos jest");
+    const option = e.target.elements.option.value.trim();
+    const error = this.props.addOption(option);
+    if (error) {
+      this.setState(() => {
+        return {error: error};
+      });
     }
+
   }
   render() {
     return (
       <div>
+        {!!this.state.error && <p>{this.state.error}</p>}
         <div>AddOption</div>
         <form onSubmit={this.addToList}>
           <input type="text" name="option"></input>
@@ -124,8 +142,20 @@ class AddOption extends React.Component {
   }
 }
 
+const User = (props)=>{
+  return (
+    <div>
+      <p>Name: {props.name}</p>
+      <p>Age: </p>
+    </div>
+  );
+};
+
 ReactDOM.render(
-  <IndecisionApp/>, document.getElementById('app'));
+  <User name="Andrew"/>, document.getElementById('app'));
+
+
+
 
 // // const emailjs = require("emailjs");
 //

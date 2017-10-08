@@ -35,9 +35,21 @@ var IndecisionApp = function (_React$Component) {
     key: "handleAddOptions",
     value: function handleAddOptions(oObj) {
       // this.setState((prevState)=>{return {prevState.options.push(oObj)};});
-      this.setState(function (prevState) {
-        return prevState.options.push(oObj);
-      });
+      if (!oObj) {
+        return "Put smth into input";
+      } else if (this.state.options.indexOf(oObj) > -1) {
+        return 'This option already exists';
+      } else {
+        this.setState(function (prevState) {
+          return { options: prevState.options.concat(oObj) };
+        });
+      }
+    }
+  }, {
+    key: "handlePick",
+    value: function handlePick() {
+      var randomNum = Math.floor(Math.random() * app.options.length);
+      var option = this.state.options[randomNum];
     }
   }, {
     key: "render",
@@ -49,7 +61,7 @@ var IndecisionApp = function (_React$Component) {
         "div",
         null,
         React.createElement(Header, { title: title, subtitle: subtitle }),
-        React.createElement(Action, { hasOptions: this.state.options.length > 0 }),
+        React.createElement(Action, { hasOptions: this.state.options.length > 0, onClick: this.handlePick }),
         React.createElement(Options, { options: this.state.options, handleDeleteOptions: this.handleDeleteOptions }),
         React.createElement(AddOption, { addOption: this.handleAddOptions })
       );
@@ -105,23 +117,14 @@ var Action = function (_React$Component3) {
   }
 
   _createClass(Action, [{
-    key: "handlePick",
-    value: function handlePick() {
-      alert("handlePick");
-    }
-  }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
-
       return React.createElement(
         "div",
         null,
         React.createElement(
           "button",
-          { disabled: !this.props.hasOptions, onClick: function onClick() {
-              _this4.handlePick();
-            } },
+          { disabled: !this.props.hasOptions, onClick: this.props.handlePick },
           "What should I do"
         )
       );
@@ -137,10 +140,10 @@ var Options = function (_React$Component4) {
   function Options(props) {
     _classCallCheck(this, Options);
 
-    var _this5 = _possibleConstructorReturn(this, (Options.__proto__ || Object.getPrototypeOf(Options)).call(this, props));
+    var _this4 = _possibleConstructorReturn(this, (Options.__proto__ || Object.getPrototypeOf(Options)).call(this, props));
 
-    _this5.removeAll = _this5.removeAll.bind(_this5);
-    return _this5;
+    _this4.removeAll = _this4.removeAll.bind(_this4);
+    return _this4;
   }
 
   _createClass(Options, [{
@@ -204,10 +207,13 @@ var AddOption = function (_React$Component6) {
   function AddOption(props) {
     _classCallCheck(this, AddOption);
 
-    var _this7 = _possibleConstructorReturn(this, (AddOption.__proto__ || Object.getPrototypeOf(AddOption)).call(this, props));
+    var _this6 = _possibleConstructorReturn(this, (AddOption.__proto__ || Object.getPrototypeOf(AddOption)).call(this, props));
 
-    _this7.addToList = _this7.addToList.bind(_this7);
-    return _this7;
+    _this6.addToList = _this6.addToList.bind(_this6);
+    _this6.state = {
+      error: undefined
+    };
+    return _this6;
   }
 
   _createClass(AddOption, [{
@@ -215,11 +221,12 @@ var AddOption = function (_React$Component6) {
     value: function addToList(e) {
       e.preventDefault();
       // rerender();
-      var option = e.target.elements.option.value;
-      if (option) {
-        // this.props
-        this.props.addOption(option);
-        alert("Cos jest");
+      var option = e.target.elements.option.value.trim();
+      var error = this.props.addOption(option);
+      if (error) {
+        this.setState(function () {
+          return { error: error };
+        });
       }
     }
   }, {
@@ -228,6 +235,11 @@ var AddOption = function (_React$Component6) {
       return React.createElement(
         "div",
         null,
+        !!this.state.error && React.createElement(
+          "p",
+          null,
+          this.state.error
+        ),
         React.createElement(
           "div",
           null,
@@ -250,7 +262,25 @@ var AddOption = function (_React$Component6) {
   return AddOption;
 }(React.Component);
 
-ReactDOM.render(React.createElement(IndecisionApp, null), document.getElementById('app'));
+var User = function User(props) {
+  return React.createElement(
+    "div",
+    null,
+    React.createElement(
+      "p",
+      null,
+      "Name: ",
+      props.name
+    ),
+    React.createElement(
+      "p",
+      null,
+      "Age: "
+    )
+  );
+};
+
+ReactDOM.render(React.createElement(User, { name: "Andrew" }), document.getElementById('app'));
 
 // // const emailjs = require("emailjs");
 //
