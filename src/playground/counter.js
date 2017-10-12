@@ -6,8 +6,9 @@ class Counter extends React.Component {
 
     this.addOne = this.addOne.bind(this);
     this.minusOne = this.minusOne.bind(this);
+    this.reset = this.reset.bind(this);
     // this.counter = 0;
-    this.state = {age:0};
+    this.state = {age:props.age};
   }
 // Old version of changing state
   addOne() {
@@ -19,7 +20,7 @@ class Counter extends React.Component {
   }
 
   reset(){
-    this.setState(()=>{return {count:0};});
+    this.setState(()=>{return {age:0};});
   }
 
   render() {
@@ -30,12 +31,14 @@ class Counter extends React.Component {
         {/* <p>{getLocation(this.city)}</p> */}
         <button onClick={this.addOne}>+1</button>
         <button onClick={this.minusOne}>-1</button>
-        <button onClick={this.minusOne}>Reset</button>
+        <button onClick={this.reset}>Reset</button>
       </div>
     );
   }
 
 }
+
+Counter.defaultProps = {age:24};
 
 ReactDOM.render(<Counter/>, document.getElementById("app"));
 

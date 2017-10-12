@@ -4,15 +4,24 @@ class IndecisionApp extends React.Component {
     super(props);
     this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
     this.handleAddOptions = this.handleAddOptions.bind(this);
+    this.handlePick = this.handlePick.bind(this);
+    this.handleDeleteOption = this.handleDeleteOption.bind(this);
     this.state = {
-      options: ["Thing one", "Thing two", "Thing three"]
+      options: props.options
     };
   }
 
   handleDeleteOptions() {
-    this.setState(() => {
-      return {options: []};
-    });
+    this.setState(() => ({
+      options: []
+    }));
+  }
+  handleDeleteOption(option)
+  {
+    console.log(this.state.options);
+    this.setState((prevState)=>(
+     prevState.options.splice(prevState.options.indexOf(option),1)
+    ));
   }
 
   handleAddOptions(oObj) {
@@ -24,16 +33,17 @@ class IndecisionApp extends React.Component {
     }
 
     else {
-      this.setState((prevState) => {
-        return {options: prevState.options.concat(oObj)};
-      });
+      this.setState((prevState) => ({
+        options: prevState.options.concat(oObj)
+      }));
     }
 
   }
 
   handlePick() {
-    const randomNum = Math.floor(Math.random() * app.options.length);
+    const randomNum = Math.floor(Math.random() * this.state.options.length);
     const option = this.state.options[randomNum];
+    alert(option);
   }
 
   render() {
@@ -44,83 +54,80 @@ class IndecisionApp extends React.Component {
       <div>
         <Header title={title} subtitle={subtitle}></Header>
         <Action hasOptions={this.state.options.length > 0} onClick={this.handlePick}></Action>
-        <Options options={this.state.options} handleDeleteOptions={this.handleDeleteOptions}></Options>
-        <AddOption addOption={this.handleAddOptions}></AddOption>
+        <Options options={this.state.options} handleDeleteOption={this.handleDeleteOption} handleDeleteOptions={this.handleDeleteOptions}></Options>
+        <AddOption handleAddOptions={this.handleAddOptions}></AddOption>
       </div>
     );
   }
 }
 
-class Header extends React.Component {
-  // constructor(){}
+IndecisionApp.defaultProps = {
+  options:['smth']
+};
 
-  render() {
-    // console.log(this.props.title);
+const Header = (props)=> {
     return (
       <div>
-        <h1>{this.props.title}</h1>
-        <h1>{this.props.subtitle}</h1>
+        <h1>{props.title}</h1>
+        <h1>{props.subtitle}</h1>
       </div>
     );
-  }
-}
+};
 
-class Action extends React.Component {
+Header.defaultProps = {
+  title: "Indecision",
+  subtitle :"Put your life in the hands of a computer"
+};
 
-  render() {
+const Action = (props) =>  {
     return (
       <div>
-        <button disabled={!this.props.hasOptions} onClick={this.props.handlePick}>What should I do</button>
+        <button disabled={!props.hasOptions} onClick={props.onClick}>What should I do</button>
       </div>
     );
-  }
-}
+};
 
-class Options extends React.Component {
-  constructor(props) {
-    super(props);
-    this.removeAll = this.removeAll.bind(this);
-  }
-  removeAll() {
-    alert(this, "handlePick");
-    this.props.handleDeleteOptions();
-  }
-  render() {
+const Options = (props) => {
+
+
     return (
       <div>
-        <button onClick={this.removeAll}>Remove all options</button>
+        <button onClick={props.handleDeleteOptions}>Remove all options</button>
         <h1>Options</h1>
-        {this.props.options.map((text) => {
-          return <Option text={text}/>;
-        })}
+        {props.options.map((option) => (
+           <Option
+             key={option}
+             optionText={option}
+             handleDeleteOption={props.handleDeleteOption}
+
+           />
+        ))}
       </div>
     );
-  }
-}
 
-class Option extends React.Component {
-  render() {
-    return (
-      <div>{this.props.text}</div>
-    );
-  }
-}
+};
+
+const Option = (props) => (
+  (<div>{props.optionText}
+    <button onClick={()=>{props.handleDeleteOption(props.optionText);}}>Remove</button>
+  </div>)
+);
 
 class AddOption extends React.Component {
 
   constructor(props) {
     super(props);
-    this.addToList = this.addToList.bind(this);
+    this.handleAddOptions = this.handleAddOptions.bind(this);
     this.state = {
       error: undefined
     };
   }
 
-  addToList(e) {
+  handleAddOptions(e) {
     e.preventDefault();
     // rerender();
     const option = e.target.elements.option.value.trim();
-    const error = this.props.addOption(option);
+    const error = this.props.handleAddOptions(option);
     if (error) {
       this.setState(() => {
         return {error: error};
@@ -131,12 +138,12 @@ class AddOption extends React.Component {
   render() {
     return (
       <div>
-        {!!this.state.error && <p>{this.state.error}</p>}
-        <div>AddOption</div>
-        <form onSubmit={this.addToList}>
+        <div>handleAddOptions</div>
+        <form onSubmit={this.handleAddOptions}>
           <input type="text" name="option"></input>
           <button type="submit">Add button</button>
         </form>
+        {!!this.state.error && <p>{this.state.error}</p>}
       </div>
     );
   }
@@ -146,13 +153,13 @@ const User = (props)=>{
   return (
     <div>
       <p>Name: {props.name}</p>
-      <p>Age: </p>
+      <p>Age: {props.age}</p>
     </div>
   );
 };
 
 ReactDOM.render(
-  <User name="Andrew"/>, document.getElementById('app'));
+  <IndecisionApp/>, document.getElementById('app'));
 
 
 
