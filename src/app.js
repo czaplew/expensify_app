@@ -10,18 +10,27 @@ class IndecisionApp extends React.Component {
       options: props.options
     };
   }
+  componentDidMount(){
+    console.log(`componentDidMount`);
+  }
+  componentDidUpdate(){
+    console.log(`componentDidUpdate`);
+  }
+
+  componentWillUnmount(){
+    console.log(`componentWillUnmount`);
+  }
 
   handleDeleteOptions() {
     this.setState(() => ({
       options: []
     }));
   }
-  handleDeleteOption(option)
+  handleDeleteOption(optionToRemove)
   {
-    console.log(this.state.options);
-    this.setState((prevState)=>(
-     prevState.options.splice(prevState.options.indexOf(option),1)
-    ));
+    this.setState((prevState)=>({
+      options: prevState.options.filter((option)=>{return optionToRemove !== option;})
+    }));
   }
 
   handleAddOptions(oObj) {

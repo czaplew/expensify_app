@@ -27,6 +27,14 @@ var IndecisionApp = function (_React$Component) {
   }
 
   _createClass(IndecisionApp, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      console.log("componentDidMount");
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {}
+  }, {
     key: "handleDeleteOptions",
     value: function handleDeleteOptions() {
       this.setState(function () {
@@ -37,10 +45,13 @@ var IndecisionApp = function (_React$Component) {
     }
   }, {
     key: "handleDeleteOption",
-    value: function handleDeleteOption(option) {
-      console.log(this.state.options);
+    value: function handleDeleteOption(optionToRemove) {
       this.setState(function (prevState) {
-        return prevState.options.splice(prevState.options.indexOf(option), 1);
+        return {
+          options: prevState.options.filter(function (option) {
+            return optionToRemove !== option;
+          })
+        };
       });
     }
   }, {
