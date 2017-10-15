@@ -1,6 +1,8 @@
-// import './utils.js';
-import substract from './utils.js';
-import {isAdult,canDrink} from './person.js';
+// import validator from 'validator';
+// validator.isEmail('test');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-console.log(`X to square is  ${square(4)} `);
-console.log(`${canDrink(16)} ${isAdult(16)}`);
+
+const template = <p>THIS is from webpack xxx</p>;
+ReactDOM.render(template,document.getElementById('app'));
