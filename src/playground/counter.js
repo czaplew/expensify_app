@@ -8,9 +8,35 @@ class Counter extends React.Component {
     this.minusOne = this.minusOne.bind(this);
     this.reset = this.reset.bind(this);
     // this.counter = 0;
-    this.state = {age:props.age};
+    this.state = {age:0};
   }
-// Old version of changing state
+
+componentDidMount(){
+
+try {
+  const stringAge = localStorage.getItem('age');
+  const age = parseInt(stringAge);
+  if(!isNaN(age))
+  {
+    this.setState(()=>({age:localStorage.getItem('age')}));
+  }
+} catch (e) {
+
+} finally {
+
+}
+
+
+}
+
+componentDidUpdate(prevProps,prevState){
+if(prevState.age !== this.state.age)
+{
+    localStorage.setItem('age',this.state.age);
+}
+}
+
+  // Old version of changing state
   addOne() {
     this.setState({age : (this.state.age + 1)});
   }
@@ -38,7 +64,7 @@ class Counter extends React.Component {
 
 }
 
-Counter.defaultProps = {age:24};
+// Counter.defaultProps = {age:24};
 
 ReactDOM.render(<Counter/>, document.getElementById("app"));
 
