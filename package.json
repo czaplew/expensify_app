@@ -5,7 +5,8 @@
   "scripts": {
     "server": "live-server public/",
     "build-babel": "babel src/app.js --out-file public/scripts/app.js --watch",
-    "build": "webpack"
+    "build": "webpack --watch",
+    "dev-server":"webpack-dev-server"
   },
   "author": "",
   "license": "ISC",
@@ -20,7 +21,8 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "validator": "^9.0.0",
-    "webpack": "^3.7.1"
+    "webpack": "^3.7.1",
+    "webpack-dev-server": "^2.9.2"
   },
   "babel": {
     "presets": [
