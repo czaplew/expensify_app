@@ -9,19 +9,19 @@ import Header from './components/Header';
 import Options from './components/Options';
 import User from './components/User';
 
+
 class IndecisionApp extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
-    this.handleAddOptions = this.handleAddOptions.bind(this);
-    this.handlePick = this.handlePick.bind(this);
-    this.handleDeleteOption = this.handleDeleteOption.bind(this);
-    this.state = {
-      options: []
-    };
+state = {options:[]}
 
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
+  //   this.handleAddOptions = this.handleAddOptions.bind(this);
+  //   this.handlePick = this.handlePick.bind(this);
+  //   this.handleDeleteOption = this.handleDeleteOption.bind(this);
+  //
+  // }
 
   componentDidMount(){
     try {
@@ -59,19 +59,19 @@ class IndecisionApp extends React.Component {
   componentWillUnmount(){
     console.log(`componentWillUnmount`);
   }
-  handleDeleteOptions() {
+  handleDeleteOptions = ()=>{
     this.setState(() => ({
       options: []
     }));
   }
-  handleDeleteOption(optionToRemove)
+  handleDeleteOption=(optionToRemove)=>
   {
     this.setState((prevState)=>({
       options: prevState.options.filter((option)=>{return optionToRemove !== option;})
     }));
   }
 
-  handleAddOptions(oObj) {
+  handleAddOptions=(oObj)=> {
     // this.setState((prevState)=>{return {prevState.options.push(oObj)};});
     if (!oObj) {
       return "Put smth into input";
@@ -87,7 +87,7 @@ class IndecisionApp extends React.Component {
 
   }
 
-  handlePick() {
+  handlePick=()=>{
     const randomNum = Math.floor(Math.random() * this.state.options.length);
     const option = this.state.options[randomNum];
     alert(option);
