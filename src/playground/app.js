@@ -1,3 +1,5 @@
+// import OptionModal from './'
+
 class IndecisionApp extends React.Component {
 
   constructor(props) {
@@ -87,11 +89,13 @@ class IndecisionApp extends React.Component {
     const subtitle = "Put your life in the hands of a computer";
     // const options = ["Thing one","Thing two", "Thing three"];
     return (
-      <div>
+      <div >
         <Header title={title} subtitle={subtitle}></Header>
-        <Action hasOptions={this.state.options.length > 0} onClick={this.handlePick}></Action>
-        <Options options={this.state.options} handleDeleteOption={this.handleDeleteOption} handleDeleteOptions={this.handleDeleteOptions}></Options>
-        <AddOption handleAddOptions={this.handleAddOptions}></AddOption>
+        <div className="container">
+          <Action hasOptions={this.state.options.length > 0} onClick={this.handlePick}></Action>
+          <Options options={this.state.options} handleDeleteOption={this.handleDeleteOption} handleDeleteOptions={this.handleDeleteOptions}></Options>
+          <AddOption handleAddOptions={this.handleAddOptions}></AddOption>
+        </div>
       </div>
     );
   }
