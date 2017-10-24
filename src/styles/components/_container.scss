@@ -1,7 +1,5 @@
-// Container which create margins and centralize content
-
 .container {
   max-width: 60rem;
   margin: 0 auto;
-  // background: 
+  padding: 0 $m-size;
 }
