@@ -20,13 +20,13 @@ export const addExpense = (
 });
 
 // REMOVE_EXPENSE
-const removeExpense = ({ id } = {}) => ({
+export const removeExpense = ({ id } = {}) => ({
   type: 'REMOVE_EXPENSE',
   id
 });
 
 // EDIT_EXPENSE
-const editExpense = (id, updates) => ({
+export const editExpense = (id, updates) => ({
   type: 'EDIT_EXPENSE',
   id,
   updates
