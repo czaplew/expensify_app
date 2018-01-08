@@ -6,7 +6,8 @@
     "server": "live-server public/",
     "build-babel": "babel src/app.js --out-file public/scripts/app.js --watch",
     "build": "webpack --watch",
-    "dev-server": "webpack-dev-server"
+    "dev-server": "webpack-dev-server",
+    "test":"jest --watch"
   },
   "author": "",
   "license": "ISC",
